@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script>
+        function signup() {
+            $.ajax({
+                type: "POST",
+                url: '/api/signup',
+                data: {
+                    email_give: $('#email').val(),
+                    pw_give: $('#pw').val()
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                            alert('회원가입이 완료되었습니다.')
+                            window.location.href = '/'
+                        } else {
+                            alert(response['msg'])
+                        }
+                }
+            })
+        }
+
+        function login() {
+            $.ajax({
+                type: "POST",
+                url: '/api/login',
+                data: {
+                    email_give: $('#email').val(),
+                    pw_give: $('#pw').val()
+                },
+                success: function (response) {
+                        if (response['result'] == 'success') {
+                            // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+                            // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+                            $.cookie('mytoken', response['token']);
+
+                            alert('로그인 완료!')
+                            window.location.href = '/'
+                        } else {
+                            // 로그인이 안되면 에러메시지를 띄웁니다.
+                            alert(response['msg'])
+                        }
+                    }
+            })
+        }
+    </script>
+
+    <style>
+        div {
+            width: 400px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            margin: 10px;
+        }
+
+        button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <input id="email" type="text">
+    <input id="pw" type="password">
+    <button onclick="signup()">회원가입</button>
+    <button onclick="login()">로그인</button>
+</div>
+
+
+</body>
+</html>

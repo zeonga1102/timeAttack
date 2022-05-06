@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        function logout(){
+        $.removeCookie('mytoken');
+        alert('로그아웃!')
+        window.location.href='/'
+      }
+
+      function submitButtonClick() {
+            let time = new Date().toISOString()
+            $.ajax ({
+                type: 'POST',
+                url: '/api/submit',
+                data: {
+                    title_give: $('#title').val(),
+                    desc_give: $('#desc').val(),
+                    time_give: time
+                },
+                success: function (response) {
+
+                }
+            })
+        }
+    </script>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: darkgray 1px solid;
+            text-align: center;
+            width: 100%;
+        }
+
+        form {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #submitButton {
+            width: 100px;
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+<body>
+<header>
+    <h1 style="flex-grow: 1">게시판</h1>
+    <button onclick="logout()">로그아웃</button>
+</header>
+<form>
+    <p>제목</p>
+    <input id="title" name="title" type="text">
+    <p>내용</p>
+    <textarea id="desc" name="desc"></textarea>
+    <input onclick="submitButtonClick()" id="submitButton" type="submit" value="제출">
+</form>
+
+</body>
+</html>
